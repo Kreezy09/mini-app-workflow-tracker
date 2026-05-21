@@ -45,12 +45,16 @@ export function ReviewerDecisionForm({
   const statusRegistration = register("status");
 
   async function submit(values: ReviewerDecisionFormValues) {
-    await onSubmit({
-      status: values.status,
-      reviewer_comment: values.reviewer_comment?.trim() || ""
-    });
-    reset({ status: "approved", reviewer_comment: "" });
-    setSelectedStatus("approved");
+    try {
+      await onSubmit({
+        status: values.status,
+        reviewer_comment: values.reviewer_comment?.trim() || ""
+      });
+      reset({ status: "approved", reviewer_comment: "" });
+      setSelectedStatus("approved");
+    } catch {
+      return;
+    }
   }
 
   return (
@@ -88,7 +92,11 @@ export function ReviewerDecisionForm({
         error={errors.reviewer_comment?.message}
         helper="Required for Need More Information and Reject decisions."
       >
-        <TextAreaInput placeholder="Add a concise reviewer note." {...register("reviewer_comment")} />
+        <TextAreaInput
+          aria-label="Reviewer comment"
+          placeholder="Add a concise reviewer note."
+          {...register("reviewer_comment")}
+        />
       </FormField>
       <Button disabled={isSubmitting} type="submit">
         {isSubmitting ? "Recording..." : "Record decision"}

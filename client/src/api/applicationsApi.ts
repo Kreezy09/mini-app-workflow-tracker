@@ -9,7 +9,17 @@ import type {
 
 const rawApiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "/api";
 
-export const apiBaseUrl = rawApiBaseUrl.replace(/\/$/, "");
+function resolveApiBaseUrl(value: string) {
+  const trimmed = value.replace(/\/$/, "");
+  if (/^https?:\/\//.test(trimmed)) {
+    return trimmed;
+  }
+
+  const path = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
+  return `${window.location.origin}${path}`;
+}
+
+export const apiBaseUrl = resolveApiBaseUrl(rawApiBaseUrl);
 
 function buildListParams(filters?: ApplicationListFilters) {
   return {

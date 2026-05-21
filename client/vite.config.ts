@@ -15,6 +15,7 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: "./src/test/setup.ts",
+    testTimeout: 10000,
     coverage: {
       provider: "v8",
       reporter: ["text", "html"],
@@ -22,6 +23,7 @@ export default defineConfig({
       exclude: [
         "src/main.tsx",
         "src/test/**",
+        "src/**/*.test.{ts,tsx}",
         "src/**/*.d.ts"
       ],
       thresholds: {

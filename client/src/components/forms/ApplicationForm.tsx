@@ -42,14 +42,30 @@ export function ApplicationForm({ defaultValues, submitLabel, isSubmitting, serv
       >
         <div className="grid gap-5 md:grid-cols-2">
           <FormField label="Applicant name" error={errors.applicant_name?.message}>
-            <TextInput autoComplete="name" placeholder="Jane Applicant" {...register("applicant_name")} />
+            <TextInput
+              aria-label="Applicant name"
+              autoComplete="name"
+              placeholder="Jane Applicant"
+              {...register("applicant_name")}
+            />
           </FormField>
           <FormField label="Applicant email" error={errors.applicant_email?.message}>
-            <TextInput autoComplete="email" placeholder="jane@example.com" type="email" {...register("applicant_email")} />
+            <TextInput
+              aria-label="Applicant email"
+              autoComplete="email"
+              placeholder="jane@example.com"
+              type="email"
+              {...register("applicant_email")}
+            />
           </FormField>
         </div>
         <FormField label="Company name" error={errors.company_name?.message}>
-          <TextInput autoComplete="organization" placeholder="Example Limited" {...register("company_name")} />
+          <TextInput
+            aria-label="Company name"
+            autoComplete="organization"
+            placeholder="Example Limited"
+            {...register("company_name")}
+          />
         </FormField>
       </FormSection>
       <FormSection
@@ -57,7 +73,7 @@ export function ApplicationForm({ defaultValues, submitLabel, isSubmitting, serv
         description="Choose the application type and provide enough context for review."
       >
         <FormField label="Application type" error={errors.application_type?.message}>
-          <SelectInput {...register("application_type")}>
+          <SelectInput aria-label="Application type" {...register("application_type")}>
             <option value="">Select an application type</option>
             {applicationTypeOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -67,7 +83,11 @@ export function ApplicationForm({ defaultValues, submitLabel, isSubmitting, serv
           </SelectInput>
         </FormField>
         <FormField label="Description" error={errors.description?.message}>
-          <TextAreaInput placeholder="Briefly describe the application request." {...register("description")} />
+          <TextAreaInput
+            aria-label="Description"
+            placeholder="Briefly describe the application request."
+            {...register("description")}
+          />
         </FormField>
       </FormSection>
       <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

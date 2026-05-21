@@ -2,6 +2,11 @@
 
 Django + React application workflow tracker for creating application drafts, submitting them, reviewing them, and recording reviewer decisions.
 
+## Author
+
+- Keith Mwaniki Kareithi
+- `keithkareithi09@gmail.com`
+
 ## Tech Stack
 
 - Backend: Django 5, Django Ninja, SQLite

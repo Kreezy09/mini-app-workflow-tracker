@@ -166,3 +166,7 @@ Coverage settings are configured in `.coveragerc`, `pytest.ini`, and `client/vit
 - Add PostgreSQL settings for production deployments.
 - Add toast notifications and optimistic workflow transitions.
 - Add end-to-end tests against a running Django server.
+
+## Walkthrough Video
+
+- [Brief app walkthrough video](https://drive.google.com/file/d/1Q2OSFqpzeAsxTCjqgX3IutD5_mUzF5dw/view?usp=sharing)

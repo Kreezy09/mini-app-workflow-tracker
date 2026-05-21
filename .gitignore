@@ -12,3 +12,9 @@ coverage.xml
 .env.*
 !.env.example
 .DS_Store
+node_modules/
+dist/
+coverage/
+client/node_modules/
+client/dist/
+client/coverage/

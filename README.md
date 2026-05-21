@@ -1,15 +1,17 @@
-# Mini Application Workflow Tracker Backend
+# Mini Application Workflow Tracker
 
-Django backend API for tracking application workflows from draft creation through review decisions.
+Django + React application workflow tracker for creating application drafts, submitting them, reviewing them, and recording reviewer decisions.
 
 ## Tech Stack
 
-- Django 5
-- Django Ninja
-- SQLite for local development
-- pytest, pytest-django, pytest-cov
+- Backend: Django 5, Django Ninja, SQLite
+- Frontend: React, TypeScript, Vite, React Router, Redux Toolkit Query, Redux Toolkit
+- Forms and validation: React Hook Form, Zod
+- Styling: Tailwind CSS
+- Backend tests: pytest, pytest-django, pytest-cov
+- Frontend tests: Vitest, React Testing Library
 
-## Setup
+## Backend Setup
 
 Create and activate a virtual environment:
 
@@ -18,7 +20,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-Install dependencies:
+Install backend dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -40,7 +42,38 @@ The API is available at `http://127.0.0.1:8000/api/`.
 
 Django Ninja interactive docs are available at `http://127.0.0.1:8000/api/docs`.
 
-The `client/` directory is reserved for the future frontend and currently contains no frontend code.
+## Frontend Setup
+
+Install frontend dependencies:
+
+```bash
+cd client
+npm install
+```
+
+Configure environment variables:
+
+```bash
+cp .env.example .env
+```
+
+Required frontend environment variables:
+
+- `VITE_API_BASE_URL`: API base URL. Defaults to `/api`.
+
+Run the frontend development server:
+
+```bash
+npm run dev
+```
+
+With the backend running on `http://127.0.0.1:8000`, Vite proxies `/api` requests to the Django server.
+
+Build the frontend:
+
+```bash
+npm run build
+```
 
 ## API Endpoints
 
@@ -58,22 +91,12 @@ List filters:
 - `application_type`
 - `search`
 
-Allowed application types:
+## Frontend Routes
 
-- `recordation`
-- `renewal`
-- `change_of_ownership`
-- `change_of_name`
-- `discontinuation`
-
-Allowed statuses:
-
-- `draft`
-- `submitted`
-- `under_review`
-- `need_more_information`
-- `approved`
-- `rejected`
+- `/` application workflow dashboard.
+- `/applications/new` create application draft.
+- `/applications/:id` application detail and workflow actions.
+- `/applications/:id/edit` edit draft or need more information application.
 
 ## Workflow Rules
 
@@ -86,39 +109,60 @@ Allowed statuses:
 
 ## Tests and Coverage
 
-Run tests:
+Run backend tests:
 
 ```bash
 pytest
 ```
 
-Run coverage explicitly:
+Run backend coverage:
 
 ```bash
 pytest --cov=applications --cov-report=term-missing --cov-fail-under=90
 ```
 
-Current result:
+Run frontend tests:
 
-```text
-40 passed
-Total coverage: 97.88%
+```bash
+cd client
+npm test
 ```
 
-Coverage settings are configured in `.coveragerc` and `pytest.ini`.
+Run frontend coverage:
+
+```bash
+npm run coverage
+```
+
+Run frontend type checking and linting:
+
+```bash
+npm run typecheck
+npm run lint
+```
+
+Current verification results:
+
+```text
+Backend: 40 passed, 97.88% coverage
+Frontend: 35 passed, 96.05% statement coverage, 95.97% line coverage
+```
+
+Coverage settings are configured in `.coveragerc`, `pytest.ini`, and `client/vite.config.ts`.
 
 ## Assumptions
 
-- This implementation is backend-only; no frontend was built.
-- SQLite is used for local simplicity.
+- SQLite is used for local backend simplicity.
 - API enum values use stable machine-readable strings such as `under_review`.
 - `Need More Information` is treated as editable and resubmittable, following the explicit workflow rule.
-- Authentication, authorization, and reviewer identity are out of scope for this take-home backend.
+- Authentication, authorization, and reviewer identity are out of scope.
+- The frontend uses `VITE_API_BASE_URL=/api` by default and relies on Vite proxying during local development.
 
 ## Possible Improvements
 
 - Add authentication and role-based permissions for applicants and reviewers.
-- Add pagination and richer filtering for larger datasets.
+- Add pagination, sorting, and richer filtering for larger datasets.
 - Add audit history for every workflow transition.
 - Add PostgreSQL settings for production deployments.
-- Add request throttling and structured logging.
+- Add toast notifications and optimistic workflow transitions.
+- Add end-to-end tests against a running Django server.
